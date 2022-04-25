@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homeworkSystem.mapper.BlogMapper">
+
+    <select id="getblogdata" resultType="com.homeworkSystem.Vo.statistics.BlogData">
+        select count(*) as value,type.type_name as name
+        from blog inner join type on blog.type_id=type.id
+        group by type.type_name
+    </select>
+
+</mapper>

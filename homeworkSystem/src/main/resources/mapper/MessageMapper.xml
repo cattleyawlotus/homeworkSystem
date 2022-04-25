@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.homeworkSystem.mapper.MessageMapper">
+
+    <select id="getMessage" resultType="com.homeworkSystem.Vo.MessageVo">
+        select message.id as id,acl_user.avatar,acl_user.username as nickname,message.content as messageContent,message.time
+        from message,acl_user
+        where message.uid=acl_user.id
+    </select>
+    <select id="queryByPage" resultType="com.homeworkSystem.Vo.MessageVo">
+        select message.id as id,acl_user.avatar,acl_user.username as nickname,message.content as messageContent,message.time
+        from message,acl_user
+        where message.uid=acl_user.id and ${ew.sqlSegment}
+        order by  message.create_time desc
+    </select>
+</mapper>
