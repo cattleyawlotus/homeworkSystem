@@ -22,5 +22,5 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-forum-vue/blog-vue-master/node_modules/
-forum-vue/blog-vue-master/dist/
+vue-homeworkSystem/node_modules/
+vue-homeworkSystem/dist/
