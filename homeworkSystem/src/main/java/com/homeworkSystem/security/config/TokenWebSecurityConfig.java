@@ -2,6 +2,7 @@ package com.homeworkSystem.security.config;
 
 import com.homeworkSystem.security.fliter.TokenAuthenticationFilter;
 import com.homeworkSystem.security.fliter.TokenLoginFilter;
+import com.homeworkSystem.security.fliter.VerificationCodeFilter;
 import com.homeworkSystem.security.security.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -50,7 +52,7 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutUrl("/logout")//退出路径
                 .addLogoutHandler(new TokenLogoutHandler(tokenManager,redisTemplate))
                 .and()
-//                .addFilterBefore(new VerificationCodeFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new VerificationCodeFilter(redisTemplate), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(new TokenLoginFilter(authenticationManager(), tokenManager, redisTemplate))
                 .addFilter(new TokenAuthenticationFilter(authenticationManager(), tokenManager, redisTemplate)).httpBasic();
     }
@@ -67,12 +69,16 @@ public class TokenWebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/swagger-ui.html",
+        web.ignoring().antMatchers(
+                "/swagger-ui.html",
                 "/swagger-resources/**",
                 "/webjars/springfox-swagger-ui/**",
                 "/v2/**",
+                "/csrf",
+                "/",
                 "/favicon.ico",
-                 "/*"
+                "/hs/**",
+                "/websocket/*"
         );
     }
 }

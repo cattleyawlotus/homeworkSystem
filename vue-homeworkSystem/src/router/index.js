@@ -129,7 +129,7 @@ router.beforeEach((to, from, next) => {
   if (userpath.indexOf(to.path) !== -1 || adminpath.indexOf(to.path) !== -1) {
     if (adminpath.indexOf(to.path) !== -1 && window.sessionStorage.getItem('role') === 'admin') {
       next()
-    } else if (userpath.indexOf(to.path) !== -1 && window.sessionStorage.getItem('role') === 'user') {
+    } else if (userpath.indexOf(to.path) !== -1 && (window.sessionStorage.getItem('role') === 'student' || window.sessionStorage.getItem('role') === 'teacher')) {
       next()
     } else {
       next('/login')

@@ -126,7 +126,7 @@ export default {
   },
   methods: {
     async getTagList () {
-      const { data: res } = await this.$http.get('/api/forum/tag/getalltag')
+      const { data: res } = await this.$http.get('/api/hs/tag/getalltag')
       this.tagList = res.data
     },
     toBlog (blogId) {
@@ -158,7 +158,7 @@ export default {
       //   tagId: tagId
       // }
       // var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.get('/api/forum/blog/getblogbytagid?id=' + this.activeId + '&currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
+      const { data: res } = await this.$http.get('/api/hs/blog/getblogbytagid?id=' + this.activeId + '&currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
       // 解析controller响应回的数据
       console.log(res)
       if (!res.success) {

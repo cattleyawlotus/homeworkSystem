@@ -11,8 +11,8 @@ module.exports = {
     open: true, // 自动打开浏览器
     proxy: {
       '/api': {
-        target: 'http://47.101.213.150:8081',
-        // target: 'http://127.0.0.1:8081',
+        // target: 'http://47.101.213.150:8081',
+        target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
@@ -44,7 +44,7 @@ module.exports = {
 
       config.plugin('html').tap(args => {
         args[0].isProd = true
-        args[0].title = '法律在线'
+        args[0].title = '开卷'
         return args
       })
     })
@@ -55,7 +55,7 @@ module.exports = {
       config.entry('app').clear().add('./src/main-dev.js')
       config.plugin('html').tap(args => {
         args[0].isProd = false
-        args[0].title = '法律在线'
+        args[0].title = '开卷'
         return args
       })
     })

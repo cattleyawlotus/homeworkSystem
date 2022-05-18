@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     initChart () {
-      this.$http.get('/api/forum/manager/blogdata').then(res => {
+      this.$http.get('/api/hs/manager/blogdata').then(res => {
         const typeName = []
         for (var item in res.data.data) {
           typeName.push(res.data.data[item].name)

@@ -291,7 +291,7 @@ export default {
       if (this.toLogin()) {
         const blogId = sessionStorage.getItem('blogId')
         if (this.thumbsFlag === false) {
-          const { data: res } = await this.$http.post(`/api/forum/thumbs/create?bid=${blogId}&uid=${this.uid}`)
+          const { data: res } = await this.$http.post(`/api/hs/thumbs/create?bid=${blogId}&uid=${this.uid}`)
           if (res.success) {
             this.$message.success(res.message)
             this.thumbsFlag = true
@@ -299,7 +299,7 @@ export default {
             this.$message.info(res.message)
           }
         } else {
-          const { data: res } = await this.$http.delete(`/api/forum/thumbs/delete?bid=${blogId}&uid=${this.uid}`)
+          const { data: res } = await this.$http.delete(`/api/hs/thumbs/delete?bid=${blogId}&uid=${this.uid}`)
           if (res.success) {
             this.$message.success(res.message)
             this.thumbsFlag = false
@@ -313,7 +313,7 @@ export default {
       if (this.toLogin()) {
         const blogId = sessionStorage.getItem('blogId')
         if (this.collectFlag === false) {
-          const { data: res } = await this.$http.post(`/api/forum/collects/create?bid=${blogId}&uid=${this.uid}`)
+          const { data: res } = await this.$http.post(`/api/hs/collects/create?bid=${blogId}&uid=${this.uid}`)
           if (res.success) {
             this.$message.success('收藏成功！')
             this.collectFlag = true
@@ -321,7 +321,7 @@ export default {
             this.$message.info(res.message)
           }
         } else {
-          const { data: res } = await this.$http.delete(`/api/forum/collects/delete?bid=${blogId}&uid=${this.uid}`)
+          const { data: res } = await this.$http.delete(`/api/hs/collects/delete?bid=${blogId}&uid=${this.uid}`)
           if (res.success) {
             this.$message.success('取消收藏')
             this.collectFlag = false
@@ -353,7 +353,7 @@ export default {
       this.$confirm('若该评论有子评论的话会被一起删除，你确定要继续删除吗？', '提示', { // 确认框
         type: 'warning'
       }).then(() => {
-        this.$http.delete(`/api/forum/comment/deletecomment?uid=${this.uid}&cid=${item.id}`).then((res) => {
+        this.$http.delete(`/api/hs/comment/deletecomment?uid=${this.uid}&cid=${item.id}`).then((res) => {
           if (res.data.success) {
             // sessionStorage.setItem('parentCommentId', -1)
             // this.formData.content = '请输入评论信息...'
@@ -376,7 +376,7 @@ export default {
     },
     async getCommentList () {
       const blogId = sessionStorage.getItem('blogId')
-      const { data: res } = await this.$http.get(`/api/forum/comment/getcomment?id=${blogId}&currPage=${this.pagination.currPage}&pageSize=${this.pagination.pageSize}`)
+      const { data: res } = await this.$http.get(`/api/hs/comment/getcomment?id=${blogId}&currPage=${this.pagination.currPage}&pageSize=${this.pagination.pageSize}`)
       if (!res.success) {
         console.log(res)
         return this.$message.error('获取评论列表信息失败！')
@@ -391,17 +391,17 @@ export default {
     // 获取博客
     async getOneBlog () {
       const blogId = sessionStorage.getItem('blogId')
-      await this.$http.post(`/api/forum/views/create?bid=${blogId}&ip=${this.ip}`)
-      const { data: res } = await this.$http.get(`/api/forum/blog/getblogbyid?id=${blogId}`)
+      await this.$http.post(`/api/hs/views/create?bid=${blogId}&ip=${this.ip}`)
+      const { data: res } = await this.$http.get(`/api/hs/blog/getblogbyid?id=${blogId}`)
       if (!res.success) {
         return this.$message.error(res.message)
       }
       this.dataList = res.data
 
-      const { data: thumbed } = await this.$http.get(`/api/forum/thumbs/query?bid=${blogId}&uid=${this.uid}`)
+      const { data: thumbed } = await this.$http.get(`/api/hs/thumbs/query?bid=${blogId}&uid=${this.uid}`)
       this.thumbsFlag = thumbed.data
 
-      const { data: collected } = await this.$http.get(`/api/forum/collects/query?bid=${blogId}&uid=${this.uid}`)
+      const { data: collected } = await this.$http.get(`/api/hs/collects/query?bid=${blogId}&uid=${this.uid}`)
       this.collectFlag = collected.data
     },
     getUser () {
@@ -456,7 +456,7 @@ export default {
         const input = document.getElementById('replyInput')
         const blogId = sessionStorage.getItem('blogId')
         if (this.toLogin()) {
-          await this.$http.post(`/api/forum/comment/comment?uid=${this.uid}&bid=${blogId}&content=${this.replyComment}`)
+          await this.$http.post(`/api/hs/comment/comment?uid=${this.uid}&bid=${blogId}&content=${this.replyComment}`)
         }
         this.replyComment = ''
         input.innerHTML = ''
@@ -473,7 +473,7 @@ export default {
       } else {
         const blogId = sessionStorage.getItem('blogId')
         if (this.toLogin()) {
-          await this.$http.post(`/api/forum/comment/comment?uid=${this.uid}&bid=${blogId}&content=${this.replyComment}&pcid=${pcid}`)
+          await this.$http.post(`/api/hs/comment/comment?uid=${this.uid}&bid=${blogId}&content=${this.replyComment}&pcid=${pcid}`)
         }
         this.replyComment = ''
         document.getElementsByClassName('reply-comment-input')[i].innerHTML = ''

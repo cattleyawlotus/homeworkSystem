@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     async findPage () {
-      const { data: res } = await this.$http.get(`/api/forum/manager/getcomment?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&comment=${this.pagination.queryString}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/getcomment?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&comment=${this.pagination.queryString}`)
       if (!res.success) {
         return this.$message.error('获取评论列表失败！')
       }
@@ -91,7 +91,7 @@ export default {
       this.dataList = res.data.list
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/manager/deletecomment?cid=${row.id}`).then((res) => {
+      this.$http.delete(`/api/hs/manager/deletecomment?cid=${row.id}`).then((res) => {
         if (res.data.success) {
           this.findPage()
           this.$message({

@@ -349,7 +349,7 @@ export default {
           this.formData.uid = this.uid
           // var param = this.$encrypTion(this.formData)
           console.log(this.formData)
-          this.$http.post('/api/forum/blog/createblog', this.formData).then((res) => {
+          this.$http.post('/api/hs/blog/createblog', this.formData).then((res) => {
             console.log(res)
             if (res.data.success) {
               // 弹出提示信息
@@ -374,12 +374,12 @@ export default {
     },
     // 获取所有的分类并回显
     async getTypeList () {
-      const { data: res } = await this.$http.get('/api/forum/type/getalltype')
+      const { data: res } = await this.$http.get('/api/hs/type/getalltype')
       this.typeList = res.data
     },
     // 获取所有的标签并回显
     async getTagList () {
-      const { data: res } = await this.$http.get('/api/forum/tag/getalltag')
+      const { data: res } = await this.$http.get('/api/hs/tag/getalltag')
       this.tagList = res.data
     }
   },

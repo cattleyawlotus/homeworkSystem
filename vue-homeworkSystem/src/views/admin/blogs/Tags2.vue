@@ -123,7 +123,7 @@ export default {
       //   queryString: this.pagination.queryString
       // }
       // var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.get(`/api/forum/manager/querytag?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&&tagName=${this.pagination.queryString}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/querytag?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&&tagName=${this.pagination.queryString}`)
       if (!res.success) {
         return this.$message.error('获取标签列表失败！')
       }
@@ -137,7 +137,7 @@ export default {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
           // const param = this.$encrypTion(JSON.stringify(this.formData))
-          this.$http.post(`/api/forum/manager/addtag?tagName=${this.formData.tagName}`).then((res) => {
+          this.$http.post(`/api/hs/manager/addtag?tagName=${this.formData.tagName}`).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.success) {
@@ -190,7 +190,7 @@ export default {
       this.resetForm()
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/manager/deletetag?id=${row.id}`).then((res) => {
+      this.$http.delete(`/api/hs/manager/deletetag?id=${row.id}`).then((res) => {
         if (res.data.success) {
           this.findPage()
           this.$message({

@@ -73,7 +73,7 @@ export default {
       return m
     },
     initChart () {
-      this.$http.get('/api/forum/manager/last7daysblogdata').then(res => {
+      this.$http.get('/api/hs/manager/last7daysblogdata').then(res => {
         this.data = res.data.data
         this.chart = echarts.init(this.$el, 'macarons')
         this.chart.setOption({

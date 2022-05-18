@@ -151,7 +151,7 @@ export default {
       }
     },
     async getTypeList () {
-      const { data: res } = await this.$http.get('/api/forum/type/getalltype')
+      const { data: res } = await this.$http.get('/api/hs/type/getalltype')
       this.typeList = res.data
     },
     // 分页查询
@@ -162,15 +162,7 @@ export default {
         this.activeId = id
       }
       sessionStorage.removeItem('typeId')
-      // 发送ajax，提交分页请求（页码，每页显示条数，查询条件)
-      // const param = {
-      //   currentPage: this.pagination.currentPage,
-      //   pageSize: this.pagination.pageSize,
-      //   queryString: this.pagination.queryString,
-      //   typeId: typeId
-      // }
-      // var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.get('/api/forum/blog/getblogbytypeid?id=' + this.activeId + '&currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
+      const { data: res } = await this.$http.get('/api/hs/blog/getblogbytypeid?id=' + this.activeId + '&currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
       console.log(res)
       // 解析controller响应回的数据
       if (!res.success) {

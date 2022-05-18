@@ -125,11 +125,14 @@ export default {
   data () {
     return {
       options: [{
-        value: 'user',
-        label: '用户'
-      }, {
         value: 'admin',
         label: '管理员'
+      }, {
+        value: 'student',
+        label: '学生'
+      }, {
+        value: 'teacher',
+        label: '教师'
       }],
       pagination: { // 分页相关模型数据
         currentPage: 1, // 当前页码
@@ -187,7 +190,7 @@ export default {
   },
   methods: {
     async findPage () {
-      const { data: res } = await this.$http.get(`/api/forum/manager/queryuser?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&userName=${this.pagination.queryString}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/queryuser?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&userName=${this.pagination.queryString}`)
       if (!res.success) {
         return this.$message.error('获取用户列表失败！')
       }
@@ -199,7 +202,7 @@ export default {
       this.$refs.userForm.validate((valid) => {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
-          this.$http.post('/api/forum/manager/adduser', this.formData).then((res) => {
+          this.$http.post('/api/hs/manager/adduser', this.formData).then((res) => {
             // 关闭新增窗口
             console.log(res)
             this.dialogFormVisible = false
@@ -222,7 +225,7 @@ export default {
       })
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/manager/deleteuser?id=${row.id}`).then((res) => {
+      this.$http.delete(`/api/hs/manager/deleteuser?id=${row.id}`).then((res) => {
         if (res.data.success) {
           this.findPage()
           this.$message({

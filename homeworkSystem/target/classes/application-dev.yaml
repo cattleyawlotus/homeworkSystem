@@ -1,5 +1,5 @@
 # 应用名称
-spring.application.name: forum
+spring.application.name: HomeworkSystem
 # mysql 8  驱动不同com.mysql.cj.jdbc.Driver、需要增加时区的配置  serverTimezone=GMT%2B8
 spring.datasource.username: root
 spring.datasource.password: "0926"

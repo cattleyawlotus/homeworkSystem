@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/forum/blog")
+@RequestMapping("/hs/blog")
 @Api(tags="Blog")
 public class BlogController {
 
@@ -49,7 +49,6 @@ public class BlogController {
     //<editor-fold desc="博客">
     @ApiOperation("新建博客")
     @PostMapping("/createblog")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult createBlog(@RequestBody BlogVo blogVo){
          Blog blog=new Blog();
          BeanUtils.copyProperties(blogVo,blog);
@@ -60,7 +59,6 @@ public class BlogController {
 
     @ApiOperation("删除博客")
     @DeleteMapping("/deleteblog")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult deleteBlog(@RequestParam(value = "bid")Long bid,@RequestParam(value = "uid")Long uid){
         if(blogService.delete(bid,uid)){
             blogTagsService.deleteByBlogId(bid);
@@ -74,7 +72,6 @@ public class BlogController {
 
     @ApiOperation("修改博客")
     @PutMapping("/updateblog")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult updateBlog(@RequestBody BlogVo blogVo){
         Blog blog=new Blog();
         BeanUtils.copyProperties(blogVo,blog);
@@ -190,7 +187,6 @@ public class BlogController {
 
     @ApiOperation("分页查询用户博客")
     @GetMapping("/getuserblog")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult getUserBlog(@Validated @ApiParam("分页参数") PageReq req,@RequestParam(value = "uid")long uid){
         PageUtil<Blog>page = new PageUtil<>(blogService.getUserBlog(req.getCurrPage(),req.getPageSize(),uid));
         List<BlogVo> list=page.getList().stream().map(x->{

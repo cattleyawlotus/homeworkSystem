@@ -26,7 +26,6 @@ public class ThumbsController {
 
     @ApiOperation("点赞")
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult create(@RequestParam(value = "uid")Long uid,@RequestParam(value = "bid")Long bid){
         Boolean flag=thumbsService.create(uid,bid);
         if(flag) {
@@ -38,7 +37,6 @@ public class ThumbsController {
 
     @ApiOperation("是否点赞")
     @GetMapping("/query")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult query(@RequestParam(value = "uid")Long uid,@RequestParam(value = "bid")Long bid){
         Boolean flag=thumbsService.query(uid,bid);
         return CommonResult.ok().data(flag);
@@ -46,7 +44,6 @@ public class ThumbsController {
 
     @ApiOperation("取消点赞")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult delete(@RequestParam(value = "uid")Long uid,@RequestParam(value = "bid")Long bid){
         thumbsService.delete(uid,bid);
         blogService.updateThumbs(bid);

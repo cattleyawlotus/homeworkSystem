@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/forum/collects")
+@RequestMapping("/hs/collects")
 @Api(tags="Collects")
 public class CollectsController {
 
@@ -40,7 +40,6 @@ public class CollectsController {
 
     @ApiOperation("收藏")
     @PostMapping("/create")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult create(@RequestParam(value = "uid")Long uid, @RequestParam(value = "bid")Long bid){
         Boolean flag=collectsService.create(uid,bid);
         if(flag) {
@@ -52,7 +51,6 @@ public class CollectsController {
 
     @ApiOperation("是否收藏")
     @GetMapping("/query")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult query(@RequestParam(value = "uid")Long uid,@RequestParam(value = "bid")Long bid){
         Boolean flag=collectsService.query(uid,bid);
         return CommonResult.ok().data(flag);
@@ -60,7 +58,6 @@ public class CollectsController {
 
     @ApiOperation("取消收藏")
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult delete(@RequestParam(value = "uid")Long uid,@RequestParam(value = "bid")Long bid){
         collectsService.delete(uid,bid);
         blogService.updateCollects(bid);
@@ -70,7 +67,6 @@ public class CollectsController {
 
     @ApiOperation("分页查询用户收藏的博客")
     @GetMapping("/getcollectedblog")
-    @PreAuthorize("hasAnyRole('ROLE_user')")
     public CommonResult getAllBlog(@Validated @ApiParam("分页参数") PageReq req,@RequestParam(value = "uid")Long uid){
         PageUtil<Blog> page = new PageUtil<>(blogService.getCollectedBlog(req.getCurrPage(),req.getPageSize(),uid));
         List<BlogVo> list=page.getList().stream().map(x->{

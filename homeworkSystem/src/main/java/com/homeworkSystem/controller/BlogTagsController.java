@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-01-28
  */
 @RestController
-@RequestMapping("/forum/blog-tags")
+@RequestMapping("/hs/blog-tags")
 public class BlogTagsController {
 
 }

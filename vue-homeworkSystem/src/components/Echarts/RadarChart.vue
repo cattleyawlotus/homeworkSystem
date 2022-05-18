@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     initChart () {
-      this.$http.get('/api/forum/manager/blogrank').then(res => {
+      this.$http.get('/api/hs/manager/blogrank').then(res => {
         this.data = res.data.data
         for (var i in this.data) {
           this.thumbmax = Math.max(this.thumbmax, this.data[i].thumbs)

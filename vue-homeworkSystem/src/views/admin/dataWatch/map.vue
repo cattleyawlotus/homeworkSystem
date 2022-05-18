@@ -83,7 +83,7 @@ export default {
     },
     // 初始化地图数据
     init () {
-      this.$http.get('/api/forum/manager/location').then(s => {
+      this.$http.get('/api/hs/manager/location').then(s => {
         this.list = s.data.data
         echarts.registerMap('china', chinaJson)
         this.changeOptions('china')

@@ -38,13 +38,6 @@ public class UserController {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-//    @ApiOperation("用户登录")
-//    @PostMapping("/login")
-//    public CommonResult login(@RequestBody User user){
-//        String token=userService.login(user);
-//        return CommonResult.ok();
-//    }
-
     @ApiOperation("注册")
     @PostMapping("/register")
     public CommonResult register(@RequestBody RegisterVo user){
@@ -54,7 +47,6 @@ public class UserController {
 
     @ApiOperation("获取个人信息")
     @GetMapping("/info")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult info(@RequestParam(value = "uid")Long uid){
         User user=userService.getById(uid);
         if(user==null){
@@ -70,7 +62,6 @@ public class UserController {
 
     @ApiOperation("修改个人信息")
     @PutMapping("/update")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult info(@RequestBody User user){
 //         user.setPassword(MD5.encrypt(user.getPassword()));
          userService.updateById(user);
@@ -79,7 +70,6 @@ public class UserController {
 
     @ApiOperation("test")
     @GetMapping("/test")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult test(){
         return   CommonResult.ok().data(redisTemplate.opsForValue().get("uid"));
     }
@@ -107,7 +97,6 @@ public class UserController {
 
     @ApiOperation(value = "获取消息通知")
     @GetMapping("/receiveDirectMessage")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult receiveDirectMessage(@RequestParam String qname) {
         Message message=rabbitTemplate.receive(qname);
         List<byte[]> res=new ArrayList<>();

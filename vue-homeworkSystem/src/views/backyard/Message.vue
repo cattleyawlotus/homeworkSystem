@@ -80,7 +80,7 @@ export default {
       }
       this.barrageList.push(message)
       this.messageContent = ''
-      const { data: res } = await this.$http.post(`/api/forum/message/create?message=${message.messageContent}&uid=${this.uid}`)
+      const { data: res } = await this.$http.post(`/api/hs/message/create?message=${message.messageContent}&uid=${this.uid}`)
       if (res.success) {
         this.$message.success('新增留言成功')
       } else {
@@ -88,7 +88,7 @@ export default {
       }
     },
     async listMessage () {
-      const { data: res } = await this.$http.get('/api/forum/message/getmessage')
+      const { data: res } = await this.$http.get('/api/hs/message/getmessage')
       if (res.success) {
         this.barrageList = res.data
       } else {

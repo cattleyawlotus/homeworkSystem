@@ -235,15 +235,15 @@ export default {
       this.$router.push('/blog')
     },
     async getLatestList () {
-      const { data: res } = await this.$http.get('/api/forum/blog/getlatestblog?hours=1000000')
+      const { data: res } = await this.$http.get('/api/hs/blog/getlatestblog?hours=1000000')
       this.latestList = res.data
     },
     async getTypeList () {
-      const { data: res } = await this.$http.get('/api/forum/type/getalltype')
+      const { data: res } = await this.$http.get('/api/hs/type/getalltype')
       this.typeList = res.data
     },
     async getTagList () {
-      const { data: res } = await this.$http.get('/api/forum/tag/getalltag')
+      const { data: res } = await this.$http.get('/api/hs/tag/getalltag')
       this.tagList = res.data
     },
     // 分页查询
@@ -254,7 +254,7 @@ export default {
         sessionStorage.removeItem('queryString')
         this.$message.info('搜索结果已经显示在页面下方')
       }
-      const { data: res } = await this.$http.get('/api/forum/blog/getallblog?currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
+      const { data: res } = await this.$http.get('/api/hs/blog/getallblog?currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize)
       // 解析controller响应回的数据
       // console.log(res)
       if (!res.success) {

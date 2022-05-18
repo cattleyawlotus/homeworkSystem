@@ -144,7 +144,7 @@ export default {
     },
     // 分页查询
     async findPage () {
-      const { data: res } = await this.$http.get('/api/forum/blog/getallblog?currPage=' + this.pagination.currentPage + '&pageSize=' + this.pagination.pageSize + '&title=' + this.pagination.queryString)
+      const { data: res } = await this.$http.get('/api/hs/blog/getallblog?currPage=' + this.pagination.currentPage + '&pageSize=' + this.pagination.pageSize + '&title=' + this.pagination.queryString)
       // 解析controller响应回的数据
       // console.log(res)
       if (!res.success) {
@@ -185,7 +185,7 @@ export default {
     async recommendStateChanged (row) {
       // console.log(row)
       // console.log(row.recommend)
-      this.$http.put('/api/forum/blog/updateblog', row).then((res) => {
+      this.$http.put('/api/hs/blog/updateblog', row).then((res) => {
         console.log(res)
         if (res.data.success) {
           // 弹出提示信息
@@ -241,7 +241,7 @@ export default {
       this.resetForm()
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/blog/deleteblog?bid=${row.id}&uid=${this.uid}`).then((res) => {
+      this.$http.delete(`/api/hs/blog/deleteblog?bid=${row.id}&uid=${this.uid}`).then((res) => {
         if (res.data.success) {
           this.findPage()
           this.$message({

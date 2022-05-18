@@ -80,7 +80,7 @@ export default {
       this.$router.push('/blog')
     },
     async getArchiveList () {
-      const { data: res } = await this.$http.get('/api/forum/blog/getuserblog?currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize + '&uid=' + this.uid)
+      const { data: res } = await this.$http.get('/api/hs/blog/getuserblog?currPage=' + this.pagination.currPage + '&pageSize=' + this.pagination.pageSize + '&uid=' + this.uid)
       console.log(res)
       if (!res.success) {
         return this.$message.error(res.message)

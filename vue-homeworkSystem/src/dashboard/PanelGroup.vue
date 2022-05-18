@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     async getdata () {
-      const { data: res } = await this.$http.get('/api/forum/manager/data')
+      const { data: res } = await this.$http.get('/api/hs/manager/data')
       if (!res.success) {
         return this.$message.error('获取数据失败!')
       } else {

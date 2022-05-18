@@ -116,7 +116,7 @@ export default {
       //   queryString: this.pagination.queryString
       // }
       // var param2 = this.$encrypTion(JSON.stringify(param))
-      const { data: res } = await this.$http.get(`/api/forum/manager/querytype?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&typeName=${this.pagination.queryString}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/querytype?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&typeName=${this.pagination.queryString}`)
       if (!res.success) {
         return this.$message.error('获取类型列表失败！')
       }
@@ -130,7 +130,7 @@ export default {
         if (valid) {
           // 表单校验通过，发ajax请求，把数据录入至后台处理
           // const param = this.$encrypTion(JSON.stringify(this.formData))
-          this.$http.post(`/api/forum/manager/addtype?typeName=${this.formData.typeName}`).then((res) => {
+          this.$http.post(`/api/hs/manager/addtype?typeName=${this.formData.typeName}`).then((res) => {
             // 关闭新增窗口
             this.dialogFormVisible = false
             if (res.data.success) {
@@ -180,7 +180,7 @@ export default {
       this.resetForm()
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/manager/deletetype?id=${row.id}`).then((res) => {
+      this.$http.delete(`/api/hs/manager/deletetype?id=${row.id}`).then((res) => {
         if (res.data.success) {
           this.findPage()
           this.$message({

@@ -33,7 +33,6 @@ public class CommentController {
 
     @ApiOperation("用户评论")
     @PostMapping("/comment")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult comment(@RequestParam(value = "uid")Long uid,@RequestParam("content")String content,@RequestParam("bid")Long bid,@RequestParam(value = "pcid",required = false)Long pcid) {
         commentService.create(uid,content,bid,pcid);
         userService.sendBlogMessage(bid,"您的帖子收到一个评论！");
@@ -42,7 +41,6 @@ public class CommentController {
 
     @ApiOperation("用户删除评论")
     @DeleteMapping("/deletecomment")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult deleteComment(@RequestParam(value = "cid")Long cid,@RequestParam(value = "uid")Long uid) {
         commentService.deleteByUser(cid,uid);
         return CommonResult.ok();
@@ -50,7 +48,6 @@ public class CommentController {
 
     @ApiOperation("用户修改评论")
     @PutMapping("/updatecomment")
-    @PreAuthorize("hasAnyRole('ROLE_admin','ROLE_user')")
     public CommonResult updateComment(@RequestParam(value = "uid")Long uid,@RequestParam(value = "cid")Long cid,@RequestParam("content")String content) {
         commentService.updateByUser(uid,cid,content);
         return CommonResult.ok();

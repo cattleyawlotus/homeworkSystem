@@ -106,7 +106,7 @@ export default {
   methods: {
     // 分页查询
     async findPage () {
-      const { data: res } = await this.$http.get(`/api/forum/manager/meaasge?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&message=${this.pagination.queryString}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/meaasge?currPage=${this.pagination.currentPage}&pageSize= ${this.pagination.pageSize}&message=${this.pagination.queryString}`)
       if (!res.success) {
         return this.$message.error('获取标签列表失败！')
       }
@@ -116,7 +116,7 @@ export default {
     },
     // 添加按钮
     handleAdd () {
-      this.$http.post(`/api/forum/message/create?message=${this.formData.content}&uid=${this.uid}`).then(res => {
+      this.$http.post(`/api/hs/message/create?message=${this.formData.content}&uid=${this.uid}`).then(res => {
         if (res.data.success) {
           this.$message.success('新增留言成功')
           this.findPage()
@@ -158,7 +158,7 @@ export default {
       this.resetForm()
     },
     handleDelete (row) {
-      this.$http.delete(`/api/forum/manager/deletemeaasge?id=${row.id}`).then((res) => {
+      this.$http.delete(`/api/hs/manager/deletemeaasge?id=${row.id}`).then((res) => {
         console.log(res)
         if (res.data.success) {
           this.findPage()

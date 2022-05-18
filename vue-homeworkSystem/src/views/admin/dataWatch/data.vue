@@ -84,7 +84,7 @@ export default {
   methods: {
     async handleSetLineChartData (type) {
       this.title = '近七日新增' + titles[type]
-      const { data: res } = await this.$http.get(`/api/forum/manager/last7daysdata?type=${type}`)
+      const { data: res } = await this.$http.get(`/api/hs/manager/last7daysdata?type=${type}`)
       if (!res.success) {
         return this.$message.error('获取数据失败!')
       } else {
