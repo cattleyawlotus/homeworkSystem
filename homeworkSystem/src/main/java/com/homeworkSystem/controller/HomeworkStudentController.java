@@ -23,12 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * <p>
@@ -93,11 +91,16 @@ public class HomeworkStudentController {
     @Autowired
     private HttpServletRequest request;
 
-    @ApiOperation("批量下载作业")
+    @ApiOperation("批量下载作业(使用url直接下载)")
     @GetMapping("/downloadhw")
     public CommonResult uploadHw(@ApiParam("作业id") @RequestParam(value = "hid") Long hid){
-        List<HomeworkStudent> homeworkStudentList=homeworkStudentService.list(new QueryWrapper<HomeworkStudent>().eq("homework_id",hid));
+        Homework hw=homeworkService.getOne(new LambdaQueryWrapper<Homework>().eq(Homework::getId,hid));
+        if(hw==null){
+            throw new MyException(ResultCode.HomeworkNotExsist);
+        }
+        String zipFileName="文件："+hw.getName() + new SimpleDateFormat("(yyyy-MM-dd HH:mm:ss)").format(new Date()) + ".zip";
 
+        List<HomeworkStudent> homeworkStudentList=homeworkStudentService.list(new QueryWrapper<HomeworkStudent>().eq("homework_id",hid));
 
         List<Map<String, String>> mapList = new ArrayList<>();
         for(HomeworkStudent hs:homeworkStudentList){
@@ -107,7 +110,25 @@ public class HomeworkStudentController {
             mapList.add(map);
         }
 
-        FileUtil.zipDirFileToFile(mapList, request, response);
+//        FileUtil.zipFileFromMinioUrl(zipFileName,mapList, request, response);
+        FileUtil.zipUrlToFile(zipFileName,mapList, request, response);
+        return CommonResult.ok();
+    }
+
+    @ApiOperation("作业评分(0-100)")
+    @GetMapping("/score")
+    public CommonResult score(@ApiParam("作业id") @RequestParam(value = "hid") Long hid,@ApiParam("学生id") @RequestParam(value = "sid") Long sid
+                                                                    ,@ApiParam("评分") @RequestParam(value="score") @Max(100) @Min(0) int score){
+        Homework hw=homeworkService.getOne(new LambdaQueryWrapper<Homework>().eq(Homework::getId,hid));
+        if(hw==null){
+            throw new MyException(ResultCode.HomeworkNotExsist);
+        }
+        HomeworkStudent hs=homeworkStudentService.getOne(new QueryWrapper<HomeworkStudent>().eq("homework_id",hid).eq("student_id",sid));
+        if(hs==null){
+            throw new MyException(ResultCode.StudentNotSubmit);
+        }
+        hs.setScore(score);
+        homeworkStudentService.updateById(hs);
         return CommonResult.ok();
     }
 }

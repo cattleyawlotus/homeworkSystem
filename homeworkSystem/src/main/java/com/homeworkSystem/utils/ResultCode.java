@@ -58,7 +58,8 @@ public enum ResultCode {
     CollectsAlready             ("02008", "已收藏"),
 
     HomeworkNotExsist           ("03001","作业不存在"),
-    StudentClassNotMatch        ("03002","该学生不在班级内");
+    StudentClassNotMatch        ("03002","该学生不在班级内"),
+    StudentNotSubmit            ("03003","该学生尚未提交本次作业");
     private final String error_code;
 
     private final String error_message;

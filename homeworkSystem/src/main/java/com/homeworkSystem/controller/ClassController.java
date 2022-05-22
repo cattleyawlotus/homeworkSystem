@@ -38,9 +38,11 @@ public class ClassController {
         class1.setName(className);
         class1.setTeacherId(tid);
         classService.save(class1);
-//        为班级新建bucket 以id作为标识
+        //为班级新建bucket 以id作为标识
         if(!minioService.bucketExists(class1.getId().toString())){
             minioService.createBucket(class1.getId().toString());
+            //配置访问策略
+            minioService.createBucketPolicy(new StringBuilder(""),class1.getId().toString());
         }
         return CommonResult.ok();
     }

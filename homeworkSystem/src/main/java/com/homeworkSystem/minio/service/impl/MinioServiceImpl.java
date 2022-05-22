@@ -3,6 +3,7 @@ package com.homeworkSystem.minio.service.impl;
 import com.homeworkSystem.minio.MinioAutoProperties;
 import com.homeworkSystem.minio.service.MinioService;
 import io.minio.*;
+import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import io.minio.messages.Item;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.*;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -265,6 +268,31 @@ public class MinioServiceImpl implements MinioService {
         }
     }
 
+    @Override
+    public void createBucketPolicy(StringBuilder builder, String bucketName) {
+        if(builder.length()==0) {
+            builder=defaultBucketPolicy(bucketName);
+        }
+        try {
+            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(builder.toString()).build());
+        } catch (Exception e) {
+            throw new RuntimeException("设置桶策略错误", e);
+        }
+    }
+
+    @Override
+    public String getBucketPolicy(String bucketName) {
+       String bucketPolicy = null;
+       try {
+           bucketPolicy = minioClient.getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucketName).build());
+       } catch (Exception e) {
+           throw new RuntimeException("查看桶策略失败", e);
+       }
+       log.info(bucketPolicy);
+        return bucketPolicy;
+    }
+
+
     /**
      * 上传MultipartFile通用方法
      *
@@ -376,6 +404,49 @@ public class MinioServiceImpl implements MinioService {
         String fileSuffix = objectName.substring(objectName.lastIndexOf(".") + 1);
         // 组成唯一文件名
         return String.format("%s_%s.%s", filePrefix, System.currentTimeMillis(), fileSuffix);
+    }
+
+    /**
+     * 获取默认桶策略  public
+     *
+     * @param bucketName
+     * @return
+     */
+    private static StringBuilder defaultBucketPolicy(String bucketName){
+        StringBuilder builder=new StringBuilder();
+        builder.append("{\n" +
+                "  \"Version\": \"2012-10-17\",\n" +
+                "  \"Statement\": [\n" +
+                "    {\n" +
+                "      \"Effect\": \"Allow\",\n" +
+                "      \"Action\": [\n" +
+                "                \"s3:ListBucketMultipartUploads\",\n" +
+                "                \"s3:ListBucket\",\n" +
+                "                \"s3:GetBucketLocation\"\n" +
+                "      ],\n" +
+                "      \"Principal\":{\"AWS\":[\"*\"]},\n" +
+                "      \"Resource\": [\n" +
+                "        \"arn:aws:s3:::"+bucketName+"\"\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"Effect\": \"Allow\",\n" +
+                "      \"Action\": [\n" +
+                "                \"s3:AbortMultipartUpload\",\n" +
+                "                \"s3:ListMultipartUploadParts\",\n" +
+                "                \"s3:GetObject\",\n" +
+                "                \"s3:PutObject\",\n" +
+                "                \"s3:DeleteObject\"\n" +
+                "      ],\n" +
+                "      \"Principal\":{\"AWS\":[\"*\"]},\n" +
+                "      \"Resource\": [\n" +
+                "        \"arn:aws:s3:::"+bucketName+"/*\"\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}");
+//        log.info(String.valueOf(builder));
+        return builder;
     }
 
 }

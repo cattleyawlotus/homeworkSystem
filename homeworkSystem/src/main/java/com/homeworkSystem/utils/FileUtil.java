@@ -36,11 +36,6 @@ public class FileUtil {
 
     private static MimetypesFileTypeMap mimetypesFileTypeMap;
 
-    private static MinioService minioService;
-    @Autowired
-    public void setMinioService(MinioService minioService){
-        FileUtil.minioService=minioService;
-    }
     /**
      * 下载http文件流
      *
@@ -210,7 +205,7 @@ public class FileUtil {
      */
     public static void setResponse(String fileName, long contentLength, HttpServletRequest request, HttpServletResponse response) {
         try {
-            response.setContentType(FileUtil.getContentType("0.jpg"));
+            response.setContentType(FileUtil.getContentType(fileName));
             boolean isPreview = "preview".equalsIgnoreCase(request.getParameter("source"));
             response.addHeader("Content-Disposition", (!isPreview ? "attachment; " : "") + "filename*=utf-8'zh_cn'" + URLEncoder.encode(fileName, "UTF-8"));
             response.setHeader("Accept-Ranges", "bytes");
@@ -242,6 +237,7 @@ public class FileUtil {
                     response.setHeader("Content-Range", "bytes " + requestStart + "-" + (contentLength - 1L) + "/" + contentLength);
                 }
             }
+            response.setHeader("Content-Type", "application/json");
         } catch (Exception e) {
             throw new RuntimeException("response响应失败!");
         }
@@ -255,6 +251,10 @@ public class FileUtil {
         return mimetypesFileTypeMap.getContentType(fileName);
     }
 
+
+
+
+
     /**
      * 将磁盘的多个文件打包成压缩包并输出流下载
      *
@@ -262,20 +262,16 @@ public class FileUtil {
      * @param request
      * @param response
      */
-    public static void zipDirFileToFile(List<Map<String, String>> pathList, HttpServletRequest request, HttpServletResponse response) {
+    public static void zipDirFileToFile(String outputFileName,List<Map<String, String>> pathList, HttpServletRequest request, HttpServletResponse response) {
         try {
+//            outputFileName = "文件" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".zip";
             // 设置response参数并且获取ServletOutputStream
-            ZipArchiveOutputStream zous = getServletOutputStream(response);
+            ZipArchiveOutputStream zous = getServletOutputStream(outputFileName,response);
 
             for (Map<String, String> map : pathList) {
                 String fileName = map.get("name");
-//                File file = new File(map.get("path"));
-//                InputStream inputStream = new FileInputStream(file);
-                //使用minio获取文件流
-                InputStream inputStream=minioService.getObjectByUrl(map.get("path"));
-                if (inputStream == null) {
-                    continue;
-                }
+                File file = new File(map.get("path"));
+                InputStream inputStream = new FileInputStream(file);
                 setByteArrayOutputStream(fileName, inputStream, zous);
             }
             zous.close();
@@ -291,10 +287,11 @@ public class FileUtil {
      * @param request
      * @param response
      */
-    public static void zipUrlToFile(List<Map<String, String>> pathList, HttpServletRequest request, HttpServletResponse response) {
+    public static void zipUrlToFile(String outputFileName,List<Map<String, String>> pathList, HttpServletRequest request, HttpServletResponse response) {
         try {
+//            outputFileName = "文件" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".zip";
             // 设置response参数并且获取ServletOutputStream
-            ZipArchiveOutputStream zous = getServletOutputStream(response);
+            ZipArchiveOutputStream zous = getServletOutputStream(outputFileName,response);
 
             for (Map<String, String> map : pathList) {
                 String fileName = map.get("name");
@@ -307,9 +304,7 @@ public class FileUtil {
         }
     }
 
-    private static ZipArchiveOutputStream getServletOutputStream(HttpServletResponse response) throws Exception {
-
-        String outputFileName = "文件" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".zip";
+    private static ZipArchiveOutputStream getServletOutputStream(String outputFileName,HttpServletResponse response) throws Exception {
         response.reset();
 //        response.setHeader("Content-Type", "application/octet-stream");
         response.setHeader("Content-Type", "application/json");
@@ -365,4 +360,39 @@ public class FileUtil {
         }
         return is;
     }
+
+
+
+//    private static MinioService minioService;
+//    @Autowired
+//    public void setMinioService(MinioService minioService){
+//        FileUtil.minioService=minioService;
+//    }
+//    /**
+//     * minio将磁盘的多个文件打包成压缩包并输出流下载
+//     *
+//     * @param pathList
+//     * @param request
+//     * @param response
+//     */
+//    public static void zipFileFromMinioUrl(String outputFileName, List<Map<String, String>> pathList, HttpServletRequest request, HttpServletResponse response) {
+//        try {
+//            // 设置response参数并且获取ServletOutputStream
+//            ZipArchiveOutputStream zous = getServletOutputStream(outputFileName,response);
+//
+//            for (Map<String, String> map : pathList) {
+//                String fileName = map.get("name");
+//                //使用minio获取文件流
+//                InputStream inputStream=minioService.getObjectByUrl(map.get("path"));
+//                if (inputStream == null) {
+//                    continue;
+//                }
+//                setByteArrayOutputStream(fileName, inputStream, zous);
+//            }
+//            zous.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

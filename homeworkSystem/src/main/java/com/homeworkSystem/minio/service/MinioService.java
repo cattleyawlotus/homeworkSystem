@@ -221,4 +221,21 @@ public interface MinioService {
      * @param objectName 文件名称
      */
     void removeObject(String bucketName, String objectName);
+
+
+
+    /**
+     * 设置桶策略
+     * @param builder 策略json
+     * @param bucketName 桶名称
+     */
+    void createBucketPolicy(StringBuilder builder, String bucketName);
+
+    /**
+     * 查看桶策略
+     * @param bucketName
+     * @return
+     */
+    String getBucketPolicy(String bucketName);
+
 }
