@@ -39,14 +39,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeoutException;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
+
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 

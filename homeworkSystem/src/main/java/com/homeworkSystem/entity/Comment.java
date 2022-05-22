@@ -13,14 +13,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="Comment对象")

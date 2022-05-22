@@ -6,14 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-/**
- * <p>
- *  服务类
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
+
 public interface ViewsService extends IService<Views> {
 
     void create(Long bid,String ip);

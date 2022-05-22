@@ -14,4 +14,24 @@ spring:
   profiles:
     active: dev
 
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
+
+  minio:
+    url: http://127.0.0.1:9000
+    endpoint: http://127.0.0.1:9000
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket: homework
+
+#  minio:
+#    url: http://47.101.213.150:9000
+#    endpoint: http://47.101.213.150:9000
+#    access-key: minioadmin
+#    secret-key: minioadmin
+#    bucket: homework
+
+
 

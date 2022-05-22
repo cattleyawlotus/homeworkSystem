@@ -45,6 +45,7 @@ public enum ResultCode {
     BannedUser                  ("01013", "用户已被禁用"),
     AddAdminFail                ("01014","添加管理员失败"),
     AdminAlreadyExist           ("01015","管理员已存在"),
+    NotStudent                  ("01016","用户不为学生"),
 
 
     ThumbsAlready               ("02001", "已点赞"),
@@ -54,8 +55,10 @@ public enum ResultCode {
     TagExsist                   ("02005","标签已存在"),
     TagNotExsist                ("02006","标签不存在"),
     CommentNotExsist            ("02007","评论不存在"),
-    CollectsAlready             ("02008", "已收藏");
+    CollectsAlready             ("02008", "已收藏"),
 
+    HomeworkNotExsist           ("03001","作业不存在"),
+    StudentClassNotMatch        ("03002","该学生不在班级内");
     private final String error_code;
 
     private final String error_message;

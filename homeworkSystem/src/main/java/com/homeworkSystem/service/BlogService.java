@@ -7,14 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-/**
- * <p>
- *  服务类
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
+
 public interface BlogService extends IService<Blog> {
 
     IPage<Blog> getAllBlog(int curr,int size,String title);

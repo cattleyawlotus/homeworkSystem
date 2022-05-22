@@ -11,14 +11,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value="Type对象", description="")

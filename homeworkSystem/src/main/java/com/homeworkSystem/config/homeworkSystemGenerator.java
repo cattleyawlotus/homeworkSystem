@@ -51,7 +51,7 @@ public class homeworkSystemGenerator {
         //4、策略配置
         StrategyConfig strategy = new StrategyConfig();
 
-        strategy.setInclude("class","class_student"); // 设置要映射的表名
+        strategy.setInclude("homework_student"); // 设置要映射的表名
                 strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setTablePrefix("acl_");

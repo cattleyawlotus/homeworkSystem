@@ -13,14 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author lzr
- * @since 2022-01-28
- */
+
 @Service
 public class BlogTagsServiceImpl extends ServiceImpl<BlogTagsMapper, BlogTags> implements BlogTagsService {
     @Autowired

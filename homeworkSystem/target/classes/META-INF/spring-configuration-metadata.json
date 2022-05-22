@@ -1,0 +1,71 @@
+{
+  "groups": [
+    {
+      "name": "spring.minio",
+      "type": "com.homeworkSystem.minio.MinioAutoProperties",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.minio.access-key",
+      "type": "java.lang.String",
+      "description": "认证账户",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties"
+    },
+    {
+      "name": "spring.minio.bucket",
+      "type": "java.lang.String",
+      "description": "桶名称, 优先级最低",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties"
+    },
+    {
+      "name": "spring.minio.check-bucket",
+      "type": "java.lang.Boolean",
+      "description": "启动的时候检查桶是否存在",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.minio.connect-timeout",
+      "type": "java.lang.Long",
+      "description": "设置HTTP连接、写入和读取超时。值为0意味着没有超时 HTTP连接超时，以毫秒为单位。",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.minio.create-bucket",
+      "type": "java.lang.Boolean",
+      "description": "桶不在的时候是否新建桶",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "spring.minio.read-timeout",
+      "type": "java.lang.Long",
+      "description": "设置HTTP连接、写入和读取超时。值为0意味着没有超时 HTTP读取超时，以毫秒为单位。",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "spring.minio.secret-key",
+      "type": "java.lang.String",
+      "description": "认证密码",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties"
+    },
+    {
+      "name": "spring.minio.url",
+      "type": "java.lang.String",
+      "description": "服务地址",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties"
+    },
+    {
+      "name": "spring.minio.write-timeout",
+      "type": "java.lang.Long",
+      "description": "设置HTTP连接、写入和读取超时。值为0意味着没有超时 HTTP写超时，以毫秒为单位。",
+      "sourceType": "com.homeworkSystem.minio.MinioAutoProperties",
+      "defaultValue": 0
+    }
+  ],
+  "hints": []
+}
