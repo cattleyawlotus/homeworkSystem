@@ -3,6 +3,7 @@ package com.homeworkSystem.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.homeworkSystem.Vo.PageReq;
 import com.homeworkSystem.entity.ClassStudent;
 import com.homeworkSystem.entity.Homework;
 import com.homeworkSystem.entity.HomeworkStudent;
@@ -13,10 +14,12 @@ import com.homeworkSystem.service.HomeworkService;
 import com.homeworkSystem.service.HomeworkStudentService;
 import com.homeworkSystem.utils.CommonResult;
 import com.homeworkSystem.utils.FileUtil;
+import com.homeworkSystem.utils.PageUtil;
 import com.homeworkSystem.utils.ResultCode;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +30,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>
@@ -115,8 +119,8 @@ public class HomeworkStudentController {
         return CommonResult.ok();
     }
 
-    @ApiOperation("作业评分(0-100)")
-    @GetMapping("/score")
+    @ApiOperation("老师给作业评分(0-100)")
+    @PutMapping("/score")
     public CommonResult score(@ApiParam("作业id") @RequestParam(value = "hid") Long hid,@ApiParam("学生id") @RequestParam(value = "sid") Long sid
                                                                     ,@ApiParam("评分") @RequestParam(value="score") @Max(100) @Min(0) int score){
         Homework hw=homeworkService.getOne(new LambdaQueryWrapper<Homework>().eq(Homework::getId,hid));
@@ -130,6 +134,50 @@ public class HomeworkStudentController {
         hs.setScore(score);
         homeworkStudentService.updateById(hs);
         return CommonResult.ok();
+    }
+
+    @ApiOperation("分页获取作业提交名单")
+    @GetMapping("/gethw")
+    public CommonResult getHw(@Validated @ApiParam("分页参数") PageReq req,@ApiParam("作业id") @RequestParam(value = "hid") Long hid){
+        PageUtil<HomeworkStudent>homeworkStudentList=new PageUtil<>(homeworkStudentService.getHomework(req.getCurrPage(),req.getPageSize(),hid));
+        return CommonResult.ok().data(homeworkStudentList);
+    }
+
+    @ApiOperation("学生获取作业统计")
+    @GetMapping("/getscore")
+    public CommonResult getScore(@ApiParam("班级id") @RequestParam(value = "cid") Long cid,@ApiParam("学生id") @RequestParam(value = "sid") Long sid){
+        Map<String, Double> judge = new HashMap<>();
+        judge.put("未提交", 0.0);
+        judge.put("不及格", 0.0);
+        judge.put("及格", 0.0);
+        judge.put("良好", 0.0);
+        judge.put("优秀", 0.0);
+        double ave = 0.0;
+        List<Homework> homeworkList = homeworkService.list(new LambdaQueryWrapper<Homework>().eq(Homework::getClassId, cid));
+        for (Homework hw : homeworkList) {
+            HomeworkStudent hs = homeworkStudentService.getOne(new LambdaQueryWrapper<HomeworkStudent>().eq(HomeworkStudent::getHomeworkId, hw.getId())
+                    .eq(HomeworkStudent::getStudentId, sid));
+            if (hs == null) {
+                judge.compute("未提交", (k, v) -> v == null ? 1 : ++v);
+                judge.compute("不及格", (k, v) -> v == null ? 1 : ++v);
+                continue;
+            }
+            if (hs.getScore() < 60) {
+                judge.compute("不及格", (k, v) -> v == null ? 1 : ++v);
+            } else if (hs.getScore() >= 60 && hs.getScore() < 80) {
+                judge.compute("及格", (k, v) -> v == null ? 1 : ++v);
+            } else if (hs.getScore() >= 80 && hs.getScore() < 90) {
+                judge.compute("良好", (k, v) -> v == null ? 1 : ++v);
+            } else {
+                judge.compute("优秀", (k, v) -> v == null ? 1 : ++v);
+            }
+            ave += hs.getScore();
+        }
+
+        judge.put("平均分", ave / homeworkList.size());
+
+
+        return CommonResult.ok().data(judge);
     }
 }
 

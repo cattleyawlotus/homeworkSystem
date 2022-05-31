@@ -94,7 +94,7 @@ export default {
     },
     getuser () {
       const id = window.sessionStorage.getItem('userid')
-      this.$http.get(`/api/forum/user/info?uid=${id}`).then(res => {
+      this.$http.get(`/api/hs/user/info?uid=${id}`).then(res => {
         if (res.data.success) {
           this.user = res.data.data
         } else {
@@ -114,7 +114,7 @@ export default {
       this.modify = true
       this.buttonshow = true
 
-      this.$http.put('/api/forum/user/update', this.user).then(res => {
+      this.$http.put('/api/hs/user/update', this.user).then(res => {
         if (res.data.success) {
           this.$message.success('修改用户成功!')
           this.getuser()

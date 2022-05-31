@@ -6,6 +6,6 @@ import com.homeworkSystem.entity.Homework;
 
 public interface HomeworkService extends IService<Homework> {
 
-
+    void sendHomeworkMessage(Long cid, String message) ;
 
 }

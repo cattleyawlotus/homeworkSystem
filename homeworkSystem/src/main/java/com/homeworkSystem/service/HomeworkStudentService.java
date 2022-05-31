@@ -1,5 +1,6 @@
 package com.homeworkSystem.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.homeworkSystem.entity.HomeworkStudent;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface HomeworkStudentService extends IService<HomeworkStudent> {
 
+    IPage<HomeworkStudent> getHomework(int currPage, int pageSize, Long hid);
 }

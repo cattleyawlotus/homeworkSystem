@@ -11,8 +11,8 @@ module.exports = {
     open: true, // 自动打开浏览器
     proxy: {
       '/api': {
-        // target: 'http://47.101.213.150:8081',
-        target: 'http://127.0.0.1:8081',
+        target: 'http://47.101.213.150:8081',
+        // target: 'http://127.0.0.1:8081',
         changeOrigin: true,
         secure: false,
         pathRewrite: {

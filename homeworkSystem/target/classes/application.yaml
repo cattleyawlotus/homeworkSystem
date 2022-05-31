@@ -5,33 +5,14 @@ server:
 
 
 spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-    virtual-host: /
   profiles:
-    active: dev
+    active: prod
 
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 500MB
+      max-file-size: 10MB
+      max-request-size: 10MB
 
-  minio:
-    url: http://127.0.0.1:9000
-    endpoint: http://127.0.0.1:9000
-    access-key: minioadmin
-    secret-key: minioadmin
-    bucket: homework
-
-#  minio:
-#    url: http://47.101.213.150:9000
-#    endpoint: http://47.101.213.150:9000
-#    access-key: minioadmin
-#    secret-key: minioadmin
-#    bucket: homework
 
 
 

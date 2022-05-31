@@ -26,3 +26,15 @@ spring:
         max-idle: 5
         min-idle: 0
         #最小空闲
+  rabbitmq:
+    host: 47.101.213.150
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /
+  minio:
+    url: http://47.101.213.150:9000
+    endpoint: http://47.101.213.150:9000
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket: homework

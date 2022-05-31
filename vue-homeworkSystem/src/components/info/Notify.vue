@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     async conn () {
-      const res = await this.$http.get(`api/forum/user/receiveDirectMessage?qname=queue${this.uid}`)
+      const res = await this.$http.get(`api/hs/user/receiveDirectMessage?qname=queue${this.uid}`)
       if (JSON.parse(window.sessionStorage.getItem('notifylist')) !== null) {
         this.data = JSON.parse(window.sessionStorage.getItem('notifylist'))
       }
@@ -43,7 +43,7 @@ export default {
       }
     },
     async refresh () {
-      const res = await this.$http.get(`api/forum/user/receiveDirectMessage?qname=queue${this.uid}`)
+      const res = await this.$http.get(`api/hs/user/receiveDirectMessage?qname=queue${this.uid}`)
       if (JSON.parse(window.sessionStorage.getItem('notifylist')) !== null) {
         this.data = JSON.parse(window.sessionStorage.getItem('notifylist'))
       }

@@ -40,7 +40,8 @@ public class HomeworkController {
         String url= minioService.putObject(cid.toString(),newHomework.getId().toString()+"/"+file.getOriginalFilename(),file);
         newHomework.setUrl(url);
         homeworkService.updateById(newHomework);
-
+        //发布作业通知
+        homeworkService.sendHomeworkMessage(newHomework.getId(),"发布新作业！"+name);
         return CommonResult.ok();
     }
 
